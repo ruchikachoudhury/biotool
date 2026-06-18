@@ -1,9 +1,21 @@
-import streamlit as st
+
 from Bio.Seq import Seq
-st.write("DNA Sequence Analysis Tool")
-sequence=st.text_input("Enter a DNA sequence:", "ATGCGTACGTTAGC")
-if st.button("Analyze"):
-    st.write("Length of the sequence:", len(sequence))
-    st.write("complement of the sequence:", Seq(sequence).complement())
-    st.write("transcription of the sequence:", Seq(sequence).transcribe())
-    st.write("translation of the sequence:", Seq(sequence).translate())
+
+def dna_tools(sequence):
+    sequence1 = Seq(sequence)
+    length = len(sequence1)
+    complement = sequence1.complement()
+    transcription = sequence1.transcribe()
+    translation = sequence1.translate()
+    gc_content = (sequence1.count("G") + sequence1.count("C")) / length * 100
+    reverse_complement = sequence1.reverse_complement()
+
+    return {
+        "length": length,
+        "complement": str(complement),
+        "transcription": str(transcription),
+        "translation": str(translation),
+        "gc_content": gc_content,
+        "reverse_complement": str(reverse_complement),
+    }
+
