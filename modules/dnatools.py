@@ -11,10 +11,10 @@ def dna_tools(sequence):
     reverse_complement = sequence1.reverse_complement()
 
     return {
-        "length": length,
+        "length": str(length) + " amino acids",
         "complement": str(complement),
-        "transcription": str(transcription),
-        "translation": str(translation),
+        "transcription (mRNA)": str(transcription),
+        "translation (Protein)": str(translation),
         "gc_content": gc_content,
         "reverse_complement": str(reverse_complement),
     }

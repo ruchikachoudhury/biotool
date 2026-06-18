@@ -2,9 +2,10 @@ import streamlit as st
 
 from modules.dnatools import dna_tools
 from modules.fastz import read_fasta
+from modules.eEntrez import fetch_gene_info
 
 global sequence
-tools = ["DNA Analysis", "FASTA Reader","Convert to FASTA"]
+tools = ["DNA Analysis", "FASTA Reader","Convert to FASTA","Entrez Gene Info"]
 choice = st.sidebar.selectbox("Select a tool", tools)
 if choice == "DNA Analysis":
     st.title("DNA Analysis Tool")
@@ -47,3 +48,18 @@ elif choice == "Convert to FASTA":
             mime="text/plain"
         )
 
+
+elif choice == "Entrez Gene Info":
+    st.title("Entrez Gene Info Tool")
+    gene_id = st.text_input("Enter a gene ID:", "12345")
+    email = st.text_input("Enter your email:", "user@example.com")
+    dbtype = st.selectbox("Select database type:", ["gene", "nucleotide", "protein"])
+    if st.button("Fetch Info"):
+        results = fetch_gene_info(gene_id, email, dbtype)
+        if results:
+            st.write(f"Gene Name: {results['gene_name']}")
+            st.write(f"Gene Description: {results['gene_description']}")
+            st.write(f"Gene Organism: {results['gene_organism']}")
+        else:
+            st.error("No information found for the given gene ID.")
+            
