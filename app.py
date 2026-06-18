@@ -16,3 +16,4 @@ if st.button("Analyze"):
     # Display results
     st.write(f"GC Content: {gc_content:.2f}%")
     st.write(f"Reverse Complement: {reverse_complement}")
+    
