@@ -22,15 +22,17 @@ if choice == "DNA Analysis":
 elif choice == "FASTA Reader":
     st.title("FASTA Reader Tool")
     fasta_file = st.file_uploader("Upload a FASTA file", type=["fasta","fa"])
-    if(fasta_file.type is not "fasta" and fasta_file.type is not "fa"):
-        st.error("Please upload a valid FASTA file or go to convert your file to FASTA format using the 'Convert to FASTA' tool.")
 
     if fasta_file is not None:
-        results = read_fasta(fasta_file)
-        st.write(f"ID: {results[0]}")
-        st.write(f"Description: {results[1]}")
-        st.write(f"Accession: {results[2]}")
-        st.write(f"Sequence: {results[3]}")
+        filename = getattr(fasta_file, "name", "")
+        if not filename.lower().endswith((".fasta", ".fa")):
+            st.error("Please upload a valid FASTA file (extension .fasta or .fa) or go to convert your file to FASTA format using the 'Convert to FASTA' tool.")
+        else:
+            results = read_fasta(fasta_file)
+            st.write(f"ID: {results[0]}")
+            st.write(f"Description: {results[1]}")
+            st.write(f"Accession: {results[2]}")
+            st.write(f"Sequence: {results[3]}")
 
 elif choice == "Convert to FASTA":
     st.title("Convert to FASTA Tool")
