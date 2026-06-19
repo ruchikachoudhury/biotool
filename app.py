@@ -5,7 +5,7 @@ from modules.fastz import read_fasta
 from modules.eEntrez import fetch_gene_info
 
 global sequence
-tools = ["DNA Analysis", "FASTA Reader","Convert to FASTA","Entrez Gene Info"]
+tools = ["DNA Analysis", "FASTA Reader","Convert to FASTA","Entrez Gene Info","MSA Viewer","mutation analysis"]
 choice = st.sidebar.selectbox("Select a tool", tools)
 if choice == "DNA Analysis":
     st.title("DNA Analysis Tool")
@@ -62,4 +62,33 @@ elif choice == "Entrez Gene Info":
             st.write(f"Gene Organism: {results['gene_organism']}")
         else:
             st.error("No information found for the given gene ID.")
-            
+
+elif choice == "MSA Viewer":
+    st.title("Multiple Sequence Alignment (MSA) Viewer Tool")
+    msa_file = st.file_uploader("Upload a MSA file", type=["fasta","fa","clustal","aln"])
+    t = st.slider("Consensus Threshold", 0.0, 1.0, 0.7, 0.5, 0.01)
+    if msa_file is not None:
+        filename = getattr(msa_file, "name", "")
+        if not filename.lower().endswith((".fasta", ".fa", ".clustal", ".aln")):
+            st.error("Please upload a valid MSA file (extension .fasta, .fa, .clustal, or .aln).")
+        else:
+            def read_alignment(msa_file,t):
+                return read_alignment(msa_file,t)
+            results = read_alignment(msa_file,t)
+            st.write(f"Conserved Sites: {results[0]}")
+            st.write(f"Variable Sites: {results[1]}")
+            st.write(f"Consensus Sequence: {results[2]}")
+
+elif choice == "mutation analysis":
+    st.title("Mutation Analysis Tool")
+    seq1 = st.text_input("Enter the first DNA sequence:", "ATGCGTACGTTAGC")
+    seq2 = st.text_input("Enter the second DNA sequence:", "ATGCGTACGTTAGC")
+    if st.button("Analyze Mutations"):
+        from modules.mutant import mutation_analysis
+        alignment, mutations = mutation_analysis(seq1, seq2)
+        results = mutation_analysis(seq1, seq2)
+        st.write("Alignment:" + str(alignment))
+        if mutations is not None:
+            st.write(f"Positions of mutations: {mutations}")
+        else:
+            st.write("The sequences are of different lengths; mutation positions cannot be determined.")
