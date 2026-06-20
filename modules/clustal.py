@@ -1,5 +1,4 @@
 from Bio import AlignIO
-from Bio.Align import AlignInfo
 def read_alignment(msa_file,t):
     alignment = AlignIO.read(msa_file, "fasta")
     summaryalign=AlignIO.SummaryInfo(alignment)

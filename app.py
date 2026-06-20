@@ -1,13 +1,16 @@
 import streamlit as st
 
-from modules.dnatools import dna_tools
-from modules.fastz import read_fasta
-from modules.eEntrez import fetch_gene_info
+
+
+
+
+from modules.motif import find_motif_in_fasta
 
 global sequence
-tools = ["DNA Analysis", "FASTA Reader","Convert to FASTA","Entrez Gene Info","MSA Viewer","mutation analysis"]
+tools = ["DNA Analysis", "FASTA Reader","Convert to FASTA","Entrez Gene Info","MSA Viewer","mutation analysis", "PDB Parser","Motif Finder"]
 choice = st.sidebar.selectbox("Select a tool", tools)
 if choice == "DNA Analysis":
+    from modules.dnatools import dna_tools
     st.title("DNA Analysis Tool")
     sequence=st.text_input("Enter a DNA sequence:", "ATGCGTACGTTAGC")
 
@@ -20,7 +23,16 @@ if choice == "DNA Analysis":
       st.write(f"GC Content: {results['gc_content']:.2f}%")
       st.write(f"Reverse Complement: {results['reverse_complement']}")
 
+elif choice == "PDB Parser":
+    from modules.pdb import parse_pdb_file
+    st.title("PDB Parser Tool")
+    pdb_file = st.file_uploader("Upload a PDB file", type=["pdb"])
+
+    if pdb_file is not None:
+        structure = parse_pdb_file(pdb_file)
+
 elif choice == "FASTA Reader":
+    from modules.fastz import read_fasta
     st.title("FASTA Reader Tool")
     fasta_file = st.file_uploader("Upload a FASTA file", type=["fasta","fa"])
 
@@ -50,6 +62,7 @@ elif choice == "Convert to FASTA":
 
 
 elif choice == "Entrez Gene Info":
+    from modules.eEntrez import fetch_gene_info
     st.title("Entrez Gene Info Tool")
     gene_id = st.text_input("Enter a gene ID:", "12345")
     email = st.text_input("Enter your email:", "user@example.com")
@@ -64,6 +77,7 @@ elif choice == "Entrez Gene Info":
             st.error("No information found for the given gene ID.")
 
 elif choice == "MSA Viewer":
+    from modules.clustal import read_alignment
     st.title("Multiple Sequence Alignment (MSA) Viewer Tool")
     msa_file = st.file_uploader("Upload a MSA file", type=["fasta","fa","clustal","aln"])
     t = st.slider("Consensus Threshold", 0.0, 1.0, 0.7, 0.5, 0.01)
@@ -80,6 +94,7 @@ elif choice == "MSA Viewer":
             st.write(f"Consensus Sequence: {results[2]}")
 
 elif choice == "mutation analysis":
+    from modules.mutant import mutation_analysis
     st.title("Mutation Analysis Tool")
     seq1 = st.text_input("Enter the first DNA sequence:", "ATGCGTACGTTAGC")
     seq2 = st.text_input("Enter the second DNA sequence:", "ATGCGTACGTTAGC")
@@ -92,3 +107,21 @@ elif choice == "mutation analysis":
             st.write(f"Positions of mutations: {mutations}")
         else:
             st.write("The sequences are of different lengths; mutation positions cannot be determined.")
+
+elif choice == "Motif Finder":
+    from modules.motif import find_motif_in_fasta
+    st.title("Motif Finder Tool")
+    fasta_file = st.file_uploader("Upload a FASTA file", type=["fasta","fa"])
+    motif = st.text_input("Enter a motif to search for:", "ATG")
+    if fasta_file is not None and motif:
+        filename = getattr(fasta_file, "name", "")
+        if not filename.lower().endswith((".fasta", ".fa")):
+            st.error("Please upload a valid FASTA file (extension .fasta or .fa) or go to convert your file to FASTA format using the 'Convert to FASTA' tool.")
+        else:
+            results = find_motif_in_fasta(fasta_file, motif)
+            if results:
+                st.write(f"Sequences containing the motif '{motif}':")
+                for record in results:
+                    st.write(f"ID: {record.id}, Description: {record.description}")
+            else:
+                st.write(f"No sequences found containing the motif '{motif}'.")
