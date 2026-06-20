@@ -1,3 +1,6 @@
+Live Demo
+https://biotools.streamlit.app/
+
 Overview
 Biotools or Bioinormatics Toolkit is a web application made using streamlit, python and bioython. It is a collection of various bioinformatic tools for the analysis of various types of biological data. The tools include DNA analysis, FASTA reader, Entrez gene info, MSA viewer, mutation analysis, PDB parser and motif finder. The application is designed to be user-friendly and easy to use for both beginners and experts in the field of bioinformatics.
 This application was build to explore computational biology and bioinformatics and get hands on experience on bioinformatics software development. The application is designed to be user-friendly and easy to use for both beginners and experts in the field of bioinformatics.
