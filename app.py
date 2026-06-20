@@ -80,7 +80,7 @@ elif choice == "MSA Viewer":
     from modules.clustal import read_alignment
     st.title("Multiple Sequence Alignment (MSA) Viewer Tool")
     msa_file = st.file_uploader("Upload a MSA file", type=["fasta","fa","clustal","aln"])
-    t = st.slider("Consensus Threshold", 0.0, 1.0, 0.7, 0.5, 0.01)
+    t = st.text_input("Consensus Threshold", "0.7")
     if msa_file is not None:
         filename = getattr(msa_file, "name", "")
         if not filename.lower().endswith((".fasta", ".fa", ".clustal", ".aln")):
