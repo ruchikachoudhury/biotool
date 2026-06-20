@@ -16,7 +16,7 @@ if choice == "DNA Analysis":
 
     if st.button("Analyze"):
       results = dna_tools(sequence)
-      
+    
 
 elif choice == "PDB Parser":
     from modules.pdb import parse_pdb_file
