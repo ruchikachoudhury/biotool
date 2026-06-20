@@ -17,5 +17,6 @@ def dna_tools(sequence):
         "translation (Protein)": str(translation),
         "gc_content": gc_content,
         "reverse_complement": str(reverse_complement),
+
     }
 
