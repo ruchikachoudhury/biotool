@@ -16,13 +16,13 @@ if choice == "DNA Analysis":
 
     if st.button("Analyze"):
       results = dna_tools(sequence)
-    st.write(f"Length: {results['length']}")
-    st.write(f"Complement: {results['complement']}")
-    st.write(f"Transcription (mRNA): {results['transcription (mRNA)']}")
-    st.write(f"Translation (Protein): {results['translation (Protein)']}")
-    st.write(f"GC Content: {results['gc_content']:.2f}%")
-    st.write(f"Reverse Complement: {results['reverse_complement']}")
-    
+      st.write(f"Length: {results['length']}")
+      st.write(f"Complement: {results['complement']}")
+      st.write(f"Transcription (mRNA): {results['transcription (mRNA)']}")
+      st.write(f"Translation (Protein): {results['translation (Protein)']}")
+      st.write(f"GC Content: {results['gc_content']:.2f}%")
+      st.write(f"Reverse Complement: {results['reverse_complement']}")
+      
 elif choice == "PDB Parser":
     from modules.pdb import parse_pdb_file
     st.title("PDB Parser Tool")

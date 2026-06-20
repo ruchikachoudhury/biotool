@@ -19,4 +19,3 @@ def dna_tools(sequence):
         "reverse_complement": str(reverse_complement),
 
     }
-
