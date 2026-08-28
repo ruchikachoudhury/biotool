@@ -9,7 +9,7 @@ def dna_tools(sequence):
     translation = sequence1.translate()
     gc_content = (sequence1.count("G") + sequence1.count("C")) / length * 100
     reverse_complement = sequence1.reverse_complement()
-
+#used various methods to get the output
     return {
         "length": str(length) + " amino acids",
         "complement": str(complement),
